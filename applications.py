@@ -15,8 +15,7 @@ fileHandler = RotatingFileHandler(config.LOG_FOLDER + '/' + filename + '.log', m
 fileHandler.setFormatter(formatter)
 logger.addHandler(fileHandler)
 
-apps = config.application_apps
-error=False
+apps = sorted(list(config.application_apps), key=lambda tup: tup[0])
 count=0
 count_up=0
 count_down=0
@@ -37,7 +36,7 @@ for name, ip, port, udid in apps:
 		logger.info(review)
 		requests.get(url if status == "up" else url + "/fail", data=review)
 	except:
-		error=True
+		pass
 review  = "%s Checked (Up: %s, Down: %s)" % (count, count_up, count_down)
 logger.info(review)
 
